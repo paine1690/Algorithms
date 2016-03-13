@@ -1,8 +1,6 @@
 import java.util.*;
 
 public class StringMatch {
-	
-	
 	/*
 	 * KMP算法
 	 * 将所有匹配的下标在list中返回
@@ -69,8 +67,8 @@ public class StringMatch {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String s="";
-		String T="";
+		String s="9bwc";
+		String T="645r894hfo9bwc9rpnc";
 		System.out.println(kmpMatcher(T, s));
 	}
 
