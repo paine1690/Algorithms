@@ -66,7 +66,7 @@ public class Sort {
 			b[k++]=a[j++];
 		}
 	}
-	//按照制定步长从a写到b中
+	//按照指定步长从a写到b中
 	public static void mergeStep(int[] a, int step, int[] b){
 		int len=a.length;
 		int first=0;
@@ -105,10 +105,46 @@ public class Sort {
 			}
 		}
 	}
+	
+	/*
+	 * 递归实现
+	 */
+	//带回写
+	public static void mergeArray2(int[] a, int first, int mid, int last, int[] b){
+		int i=first;
+		int j=mid+1;
+		int k=0;
+		while(i<=mid&&j<=last){
+			if(a[i]<a[j]){
+				b[k++]=a[i++];
+			}else{
+				b[k++]=a[j++];
+			}
+		}
+		while(i<=mid){
+			b[k++]=a[i++];
+		}
+		while(j<=last){
+			b[k++]=a[j++];
+		}
+		for(i=0; i<k; i++){
+			a[first+i]=b[i];
+		}
+	}
+	public static void mergeSort_recursion(int[] a, int first, int last, int[] b){
+		if(first<last){
+			int mid=(first+last)/2;
+			mergeSort_recursion(a, first, mid, b);
+			mergeSort_recursion(a, mid+1, last, b);
+			mergeArray2(a, first, mid, last, b);
+			System.out.println(Arrays.toString(a));
+		}
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int[] a={2,5,3,0,2,3,0,3};
-		mergeSort(a);
+		int[] b=new int[a.length];
+		mergeSort_recursion(a, 0, a.length-1, b);
 		System.out.println(Arrays.toString(a));
 	}
 
