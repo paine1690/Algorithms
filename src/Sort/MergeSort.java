@@ -1,52 +1,23 @@
 package Sort;
+
 import java.util.Arrays;
 
-public class Sort {
-	/*
-	 * 计数排序
-	 * 1、不是基于比较的，复杂度为O(k+n)
-	 * 2、前提必须是带排序元素范围已知(K)
-	 * 3、稳定排序
-	 * 4、需要一个辅助数组C[k]
-	 */
-	public static int[] countingSort_extra(int nums[], int k){
-		int n=nums.length;
-		int[] re=new int[n];
-		int[] C=new int[k+1];
-		for(int i=0; i<n; i++){
-			C[nums[i]]++;
-		}
-		for(int i=1; i<C.length; i++){
-			C[i]+=C[i-1];
-		}
-		for(int i=0; i<n; i++){
-			re[C[nums[i]]-1]=nums[i];
-			C[nums[i]]--;
-		}		
-		return re;
-	}
-	/*
-	 * 计数排序的改进，排序后直接写会原来的数组
-	 */
-	public static void countingSort(int[] nums, int k){
-		int n=nums.length;
-		int[] B=new int[k+1];
-		int count=0;
-		for(int i=0; i<n; i++){
-			B[nums[i]]++;
-		}
-		for(int i=0; i<=k; i++){
-			while(B[i]-->0){
-				nums[count++]=i;
-			}
-		}
-	}
-	
+public class MergeSort {
 	/*
 	 * 归并排序
-	 * 非递归写法
+	 * 
+	 * 1、分治策略，Divide and Conquer
+	 * 2、主要分为划分子表，和合并子表（mergeArray）
+	 * 3、复杂度：最好最坏平均均为O(nlogn)
+	 * 4、需要额外存储空间O(n)
+	 * 5、稳定的排序
+	 * 6、下面用非递归与递归两种方式实现
 	 */
 	
+	
+	/*
+	 * 非递归写法
+	 */
 	//将a数组中从first到mid，mid+1到last两个有序数组合并成一个有序数组
 	public static void mergeArray(int[] a, int first, int mid, int last, int[] b){
 		int i=first;
