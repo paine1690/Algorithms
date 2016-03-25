@@ -5,7 +5,11 @@ import java.util.Arrays;
 public class HeapSort {
 	/*
 	 * 堆排序
-	 * 分析
+	 * 
+	 * 1、复杂度：最好最坏平均均为O(nlogn)
+	 * 2、空间复杂度O(1)
+	 * 3、不是稳定排序
+	 * 4、主要步骤：建堆-维护对的性质-取出最大值
 	 * 
 	 */
 	
@@ -13,7 +17,7 @@ public class HeapSort {
 	 * 筛选法建最大堆
 	 * 时间复杂度O(n)
 	 * 
-	 * 从length/2开始调整，直至跟节点 
+	 * 从length/2-1开始调整，直至跟节点 
 	 * 比较i的左右孩子，依次向下调整直至最低层
 	 * 注意数组是从0开始的，所以左孩子节点是2*i+1 
 	 */
@@ -44,9 +48,6 @@ public class HeapSort {
 		}
 	}
 	
-	/*
-	 * 堆排序
-	 */
 	public static void heapSort(int[] nums){
 		int len=nums.length;
 		int temp;

@@ -12,6 +12,7 @@ public class MergeSort {
 	 * 4、分治策略，Divide and Conquer
 	 * 5、主要分为划分子表，和合并子表（mergeArray）
 	 * 6、下面用非递归与递归两种方式实现
+	 * 
 	 */
 	
 	
