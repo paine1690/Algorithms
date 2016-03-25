@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class MergeSort {
 	/*
 	 * 归并排序
+	 * 稳定的排序，优于堆排序与快速
 	 * 
 	 * 1、复杂度：最好最坏平均均为O(nlogn)
 	 * 2、需要额外存储空间O(n)
@@ -20,7 +21,7 @@ public class MergeSort {
 	 * 非递归写法
 	 */
 	//将a数组中从first到mid，mid+1到last两个有序数组合并成一个有序数组
-	public static void mergeArray(int[] a, int first, int mid, int last, int[] b){
+	private static void mergeArray(int[] a, int first, int mid, int last, int[] b){
 		int i=first;
 		int j=mid+1;
 		int k=first;
@@ -39,7 +40,7 @@ public class MergeSort {
 		}
 	}
 	//按照指定步长从a写到b中
-	public static void mergeStep(int[] a, int step, int[] b){
+	private static void mergeStep(int[] a, int step, int[] b){
 		int len=a.length;
 		int first=0;
 		int mid=first+step-1;
@@ -82,7 +83,7 @@ public class MergeSort {
 	 * 递归实现
 	 */
 	//带回写
-	public static void mergeArray2(int[] a, int first, int mid, int last, int[] b){
+	private static void mergeArray2(int[] a, int first, int mid, int last, int[] b){
 		int i=first;
 		int j=mid+1;
 		int k=0;

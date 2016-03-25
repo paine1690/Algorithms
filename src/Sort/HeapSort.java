@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class HeapSort {
 	/*
 	 * 堆排序
+	 * 空间复杂度O(1)，优于归并与快速
 	 * 
 	 * 1、复杂度：最好最坏平均均为O(nlogn)
 	 * 2、空间复杂度O(1)
@@ -21,7 +22,7 @@ public class HeapSort {
 	 * 比较i的左右孩子，依次向下调整直至最低层
 	 * 注意数组是从0开始的，所以左孩子节点是2*i+1 
 	 */
-	public static void heapBuild(int[] nums,int len){
+	private static void heapBuild(int[] nums,int len){
 		for(int i=len/2-1; i>=0; i--){//从length开始调整直至根节点
 			int max=i;
 			int left=2*i+1;
