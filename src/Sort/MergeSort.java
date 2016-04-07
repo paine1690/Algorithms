@@ -2,19 +2,20 @@ package Sort;
 
 import java.util.Arrays;
 
+/*
+ * 归并排序
+ * 稳定的排序，优于堆排序与快速
+ * 
+ * 1、复杂度：最好最坏平均均为O(nlogn)
+ * 2、需要额外存储空间O(n)
+ * 3、稳定的排序
+ * 4、分治策略，Divide and Conquer
+ * 5、主要分为划分子表，和合并子表（mergeArray）
+ * 6、下面用非递归与递归两种方式实现
+ * 
+ */
+
 public class MergeSort {
-	/*
-	 * 归并排序
-	 * 稳定的排序，优于堆排序与快速
-	 * 
-	 * 1、复杂度：最好最坏平均均为O(nlogn)
-	 * 2、需要额外存储空间O(n)
-	 * 3、稳定的排序
-	 * 4、分治策略，Divide and Conquer
-	 * 5、主要分为划分子表，和合并子表（mergeArray）
-	 * 6、下面用非递归与递归两种方式实现
-	 * 
-	 */
 	
 	
 	/*

@@ -1,13 +1,15 @@
 package Sort;
 
+/*
+ * 计数排序
+ * 1、不是基于比较的，复杂度为O(k+n)
+ * 2、前提必须是带排序元素范围已知(K)
+ * 3、稳定排序
+ * 4、需要一个辅助数组C[k]
+ */
+
 public class CountingSort {
-	/*
-	 * 计数排序
-	 * 1、不是基于比较的，复杂度为O(k+n)
-	 * 2、前提必须是带排序元素范围已知(K)
-	 * 3、稳定排序
-	 * 4、需要一个辅助数组C[k]
-	 */
+	
 	public static int[] countingSort_extra(int nums[], int k){
 		int n=nums.length;
 		int[] re=new int[n];
