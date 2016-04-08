@@ -1,11 +1,30 @@
-import java.util.Arrays;
+
+
+/**
+ *
+ *		优先队列 大顶堆实现
+ * 
+ * 主要操作：
+ * 		insert(int key)
+ * 		maximum()
+ * 		extractMax()
+ * 		increaseKey(int i, int key)
+ * 
+ * 所有操作都可以在O(lgn)时间内完成
+ * 
+ * 
+ * @author Paine
+ *
+ */
+
+
 
 public class PriorityQueue {
-	
 	
 	private int[] nums=new int[16];
 	private int size=0;
 	
+	//返回堆顶元素（最大值）
 	public int maximum(){
 		return nums[0];
 	}

@@ -2,14 +2,16 @@ package Sort;
 
 import java.util.Arrays;
 
-/*
- * 插入排序
+/**
+ * 
+ * 		插入排序
  * 时间复杂度:O(n^2)
  * 		最好情况：O(n)    数组有序
  * 	
  * 空间复杂度O(1)
  * 
- * 
+ * @author Paine
+ *
  */
 
 public class InsertSort {

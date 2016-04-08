@@ -2,14 +2,19 @@ package Sort;
 
 import java.util.Arrays;
 
-/*
- * 快速排序
+/**
+ * 
+ * 		快速排序
  * 基于比较的内部排序中最好的方法，当待排序元素随机分布时，快速排序的平均时间最短
  * 
  * 1、复杂度：最坏情况会O(n^2)，但是平均性能O(nlgn)
  * 2、空间复杂度：O(lgn),递归栈。最坏情况下O(n)
  * 3、不是稳定排序
+ * 
+ * @author Paine
+ *
  */
+
 
 public class QuikSort {
 	
