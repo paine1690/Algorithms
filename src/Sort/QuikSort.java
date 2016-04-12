@@ -1,6 +1,7 @@
 package Sort;
 
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * 
@@ -45,10 +46,27 @@ public class QuikSort {
 		return i+1;
 	}
 	
+	/*
+	 * 随机化版优化
+	 * 
+	 * 每次都选取nums[r]作为主元，如果数组有序，会影响性能
+	 * 所以在partition的时候从p到r随机选取一个主元，在平均情况下，性能会有提升
+	 */
+	
+	private static int randomPartition(int[] nums, int p, int r){
+		Random rand=new Random();
+		int i=rand.nextInt(r-p)+p;
+		int temp=nums[i];
+		nums[i]=nums[r];
+		nums[r]=temp;
+		return partition(nums, p, r);
+	}
+	
+	
 	//循环调用
 	private static void quik(int[] nums, int p, int r){
 		if(p<r){
-			int i=partition(nums, p, r);
+			int i=randomPartition(nums, p, r);
 			quik(nums, 0, i-1);
 			quik(nums, i+1, r);
 		}
