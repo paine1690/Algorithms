@@ -1,10 +1,10 @@
 package Tree;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 
 /**
  * 
@@ -12,9 +12,10 @@ import java.util.Queue;
  * 
  * 1、二叉树遍历
  * 		先序、中序、后序、层序遍历，递归与非递归实现
- * 2、树的深度
- * 3、反转二叉树
- * 4、根据两种遍历确定二叉树
+ * 2、树的最大深度与最小深度
+ * 3、反转二叉树 递归与非递归实现
+ * 4、根据两种遍历确定二叉树（必须有中序遍历）
+ * 5、判断平衡二叉树
  * 
  * @author Paine
  *
@@ -35,6 +36,25 @@ public class BinaryTree {
         return re;
     }
     
+    //1.1.2 先序遍历 非递归实现 堆栈
+    public static List<Integer> preorderTraversal2(TreeNode root){
+    	List<Integer> re=new ArrayList<Integer>();
+    	Stack<TreeNode> stack=new Stack<TreeNode>();
+    	TreeNode node=root;
+    	while(node!=null||!stack.isEmpty()){
+    		while(node!=null){
+    			re.add(node.val);
+    			stack.push(node);
+    			node=node.left;
+    		}
+    		if(!stack.isEmpty()){
+    			node=stack.pop();
+    			node=node.right;
+    		}
+    	}
+    	return re;
+    }
+    
     //1.2.1 中序遍历 递归实现
     private void inOrder(TreeNode root, List<Integer> re){
     	if(root!=null){
@@ -47,6 +67,25 @@ public class BinaryTree {
     	List<Integer> re=new ArrayList<Integer>();
     	inOrder(root, re);
         return re;
+    }
+    
+    //1.2.2 中序遍历 非递归实现 堆栈
+    public List<Integer> inorderTraversal2(TreeNode root) {
+    	List<Integer> re=new ArrayList<Integer>();
+    	Stack<TreeNode> stack=new Stack<TreeNode>();
+    	TreeNode node=root;
+    	while(node!=null||!stack.isEmpty()){
+    		while(node!=null){
+    			stack.push(node);
+    			node=node.left;
+    		}
+    		if(!stack.isEmpty()){
+    			node=stack.pop();
+    			re.add(node.val);
+    			node=node.right;
+    		}
+    	}
+    	return re;
     }
     
     //1.3.1 后序遍历 递归实现
@@ -63,6 +102,27 @@ public class BinaryTree {
         return re;
     }
     
+    //1.3.2 后序遍历 非递归实现 堆栈
+    public List<Integer> postorderTraversal2(TreeNode root) {
+    	List<Integer> re=new ArrayList<Integer>();
+    	Stack<TreeNode> stack=new Stack<TreeNode>();
+    	TreeNode node=root;
+    	while(node!=null||!stack.isEmpty()){
+    		while(node!=null){
+    			stack.push(node);
+    			node=node.left;
+    		}
+    		if(!stack.isEmpty()){
+    			if(stack.peek().right==null){
+    				re.add(stack.pop().val);
+    			}else{
+    				node=stack.peek().right;
+    				stack.peek().right=null;
+    			}
+    		}
+    	}
+    	return re;
+    }
     
     //1.4.1 层序遍历 递归实现
     private static void level(List<List<Integer>> re, Queue<TreeNode> p, Queue<TreeNode> q){
@@ -89,22 +149,8 @@ public class BinaryTree {
     	level(re, p, q);
     	return re;
     }
-	
-    //1.4 层序遍历
-    public List<List<Integer>> levelOrderBottom(TreeNode root) {
-        List<List<Integer>> re=new ArrayList<List<Integer>>();
-        if(root==null){
-    		return re;
-    	}
-    	Queue<TreeNode> p=new LinkedList<TreeNode>();
-    	Queue<TreeNode> q=new LinkedList<TreeNode>();
-    	p.offer(root);
-    	level(re, p, q);
-    	Collections.reverse(re);
-    	return re;
-    }
     
-    //2 树的深度
+    //2.1 树的深度 最大深度
     public static int maxDepth(TreeNode root) {
     	if(root==null){
 			return 0;
@@ -112,7 +158,21 @@ public class BinaryTree {
 		return Math.max(maxDepth(root.left)+1, maxDepth(root.right)+1);
     }
     
-    //3 反转二叉树
+    //2.2 树的最小深度
+    public static int minDepth(TreeNode root) {
+        if(root==null){
+			return 0;
+		}else if(root.left==null&&root.right==null){
+        	return 1;
+        }else if(root.left==null){
+        	return minDepth(root.right)+1;
+        }else if(root.right==null){
+        	return minDepth(root.left)+1;
+        }else{
+        	return Math.min(minDepth(root.left)+1, minDepth(root.right)+1);
+        }
+    }
+    //3.1 反转二叉树 递归实现
     public TreeNode invertTree(TreeNode root) {
     	if(root==null){
     		return root;
@@ -121,6 +181,28 @@ public class BinaryTree {
         root.left=invertTree(root.right);
         root.right=temp;
         return root;
+    }
+    
+    //3.2 反转二叉树 非递归实现
+    public TreeNode invertTree2(TreeNode root){
+    	if(root==null){
+    		return root;
+    	}
+    	Queue<TreeNode> queue=new LinkedList<TreeNode>();
+    	queue.offer(root);
+    	while(!queue.isEmpty()){
+    		TreeNode node=queue.poll();
+    		TreeNode temp=node.left;
+    		node.left=node.right;
+    		node.right=temp;
+    		if(node.left!=null){
+    			queue.offer(node.left);
+    		}
+    		if(node.right!=null){
+    			queue.offer(node.right);
+    		}
+    	}
+    	return root;
     }
     
     //4.1 先序和中序 确定二叉树
@@ -163,7 +245,56 @@ public class BinaryTree {
     }
     public TreeNode buildTree2(int[] inorder, int[] postorder) {
         return build2(inorder, 0, inorder.length-1, postorder, postorder.length-1);
+    }    
+    
+    //5.1 平衡二叉树 两边递归
+    public boolean isBalanced(TreeNode root) {
+        if(root==null){
+        	return true;
+        }
+        if(root.left==null&&root.right==null){
+        	return true;
+        }
+    	if(Math.abs(maxDepth(root.left)-maxDepth(root.right))>1){
+    		return false;
+    	}
+    	return isBalanced(root.left)&&isBalanced(root.right);
     }
+    
+    //5.2 平衡二叉树 先用遍历一遍将深度信息存在val上
+    private static int getDeep(TreeNode root){
+    	if(root==null){
+    		return 0;
+    	}
+    	root.val=Math.max(getDeep(root.left)+1, getDeep(root.right)+1);
+    	return root.val;
+    }
+    private static boolean dfs(TreeNode root){
+    	if(root==null){
+        	return true;
+        }
+        if(root.left==null&&root.right==null){
+        	return true;
+        }
+        int l=0, r=0;
+        if(root.left!=null){
+        	l=root.left.val;
+        }
+        if(root.right!=null){
+        	r=root.right.val;
+        }
+    	if(Math.abs(l-r)>1){
+    		return false;
+    	}
+    	return dfs(root.left)&&dfs(root.right);
+    }
+    public boolean isBalanced2(TreeNode root) {
+       getDeep(root);
+       return dfs(root);
+    }
+    
+    
+    
     
 	public static void main(String[] args) {
 		
