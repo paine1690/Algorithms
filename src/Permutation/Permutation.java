@@ -1,5 +1,5 @@
+package Permutation;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * 		全排列问题
