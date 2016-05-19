@@ -1,15 +1,16 @@
 package String;
 
 /**
+ * 最长回文字串
  * 
- * 		Manacher算法
- * 求字符串的最长回文字字串
- * 详细说明见链接
+ * leetcode:5. Longest Palindromic Substring
+ * Manacher算法，详情见博客
+ * 
  * @author Paine
  *
  */
-
-public class Manacher {
+public class longestPalindromicSubstring {
+	
 	/*
 	 * 预处理
 	 * 为了方便后面处理
@@ -64,9 +65,8 @@ public class Manacher {
 		int start=(C-max)/2;
 		return s.substring(start, start+max);
     }
-	
 	public static void main(String[] args) {
-		System.out.println(longestPalindrome("aba"));
+		// TODO Auto-generated method stub
 
 	}
 
