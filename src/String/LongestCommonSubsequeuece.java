@@ -9,9 +9,9 @@ package String;
  * @author Paine
  *
  */
-public class LongsetCommonSubsequeuece {
+public class LongestCommonSubsequeuece {
 
-	public static String longsetCommonSubsequeuece(String s1, String s2){
+	public static String longestCommonSubsequeuece(String s1, String s2){
 		int m=s1.length();
 		int n=s2.length();
 		int[][] dp=new int[m+1][n+1];
@@ -45,7 +45,7 @@ public class LongsetCommonSubsequeuece {
 		// TODO Auto-generated method stub
 		String s1="abcfbc";
 		String s2="abfcba";
-		System.out.println(longsetCommonSubsequeuece(s1, s2));
+		System.out.println(longestCommonSubsequeuece(s1, s2));
 	}
 
 }
