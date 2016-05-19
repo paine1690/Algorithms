@@ -1,7 +1,7 @@
 package String;
 
 /**
- * 最长不重复字串
+ * 最长不重复子串
  * 
  * leetcode:3. Longest Substring Without Repeating Characters
  * 利用一个数组保存字幕上次出现的位置

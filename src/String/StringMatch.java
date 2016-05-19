@@ -1,6 +1,13 @@
 package String;
 import java.util.*;
 
+/**
+ * 字符串匹配
+ * 根据算法导论
+ * 
+ * @author Paine
+ *
+ */
 public class StringMatch {
 	/*
 	 * KMP算法

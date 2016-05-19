@@ -1,7 +1,7 @@
 package String;
 
 /**
- * 最长回文字串
+ * 最长回文子串 O(n)
  * 
  * leetcode:5. Longest Palindromic Substring
  * Manacher算法，详情见博客
