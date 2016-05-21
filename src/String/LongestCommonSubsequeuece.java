@@ -44,7 +44,7 @@ public class LongestCommonSubsequeuece {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		String s1="abcfbc";
-		String s2="abfcba";
+		String s2="438484";
 		System.out.println(longestCommonSubsequeuece(s1, s2));
 	}
 
