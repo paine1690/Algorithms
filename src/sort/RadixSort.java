@@ -5,6 +5,11 @@ import java.util.Arrays;
 /**
  * 		基数排序
  * 
+ * 给定n个d位数，其中每个数位有k个可能的取值
+ * 采用稳定的O(n+k)的排序算法即计数排序，基数排序的时间复杂度为O(d(n+k))
+ * 
+ * 
+ * 
  * @author Paine
  *
  */
@@ -36,7 +41,7 @@ public class RadixSort {
 			re[index-1]=nums[i];
 			c[val]--;
 		}
-		System.out.println(Arrays.toString(re));
+		System.out.println("step"+n+": "+Arrays.toString(re));
 	}
 	
 	/*
@@ -51,11 +56,17 @@ public class RadixSort {
 			}else{
 				countingSort(temp, nums, i);
 			}
-		}		
+		}	
+		
+		if((d&1)!=1){
+			nums=temp;
+		}
+		
 	} 
 	public static void main(String[] args) {
 		int[] nums={329,457,657,839,436,720,355};
 		radixSort(nums, 3, 10);
+		System.out.println(Arrays.toString(nums));
 	}
 
 }
