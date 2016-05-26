@@ -84,6 +84,53 @@ public class StringMatch {
 	}
 	
 	
+	/*
+	 * 4、KMP算法
+	 * 
+	 * 预处理 O(m)
+	 * 运行时间O(n)
+	 */
+	
+	//预处理，求出Pi数组 O(m)
+	private static int[] computePrefix(String P){
+		int m=P.length();
+		int[] Pi=new int[m];
+		
+		Pi[0]=0;
+		int k=-1;
+		for(int i=1; i<m; i++){
+			while(k>=0&&P.charAt(k+1)!=P.charAt(i)){
+				k=Pi[k]-1;
+			}
+			if(P.charAt(k+1)==P.charAt(i)){
+				k++;
+			}
+			Pi[i]=k+1;
+		}
+		return Pi;
+	}
+	
+	//KMP算法 O(n)
+	public static List<Integer> kmpMatcher(String T, String P){
+		List<Integer> re=new ArrayList<Integer>();
+		int n=T.length();
+		int m=P.length();
+		int[] Pi=computePrefix(P);
+		int q=-1;
+		for(int i=0; i<n; i++){
+			while(q>=0&&P.charAt(q+1)!=T.charAt(i)){
+				q=Pi[q]-1;
+			}
+			if(P.charAt(q+1)==T.charAt(i)){
+				q++;
+			}
+			if(q==m-1){
+				re.add(i-m+1);
+				q=Pi[q]+1;
+			}
+		}
+		return re;
+	}	
 	
 	
 	
@@ -93,8 +140,6 @@ public class StringMatch {
 		// TODO Auto-generated method stub
 		String P="31415";
 		String T="2353141590231431415152673931415921";
-		String p="ababaca";
-		String t="ababacabfdzgbdzrgababaca";
 		System.out.println(naiveStringMatcher(T, P));
 		System.out.println(rabinKarpMatcher(T, P));
 		System.out.println(kmpMatcher(T, P));
