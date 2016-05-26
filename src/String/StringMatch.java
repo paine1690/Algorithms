@@ -15,8 +15,9 @@ import java.util.*;
 public class StringMatch {
 	
 	/*
-	 * 1、朴素算法  O((n-m+1)*m)
-	 * 暴力破解 
+	 * 1、朴素算法  
+	 * 
+	 * 暴力破解 O((n-m+1)*m)
 	 * 外层循环 n-m+1
 	 * 内层循环 m 
 	 */
@@ -38,79 +39,65 @@ public class StringMatch {
 		return re;
 	}
 	
-	
-	
-	
-	
 	/*
-	 * KMP算法
-	 * 将所有匹配的下标在list中返回
+	 * 2、Rabin-Karp算法
+	 * 
+	 * 最坏情况下和朴素一样O((n-m+1)*m)
+	 * 通过哈希函数进行映射
+	 * 运行的时候能到达O(n+m)
+	 * 
 	 */
-	public static List<Integer> kmpMatcher(String Text, String Pattern){
-		int n=Text.length();
-		int m=Pattern.length();
-		if(m==0){
-			return null;
+	public static List<Integer> rabinKarpMatcher(String T, String P){
+		List<Integer> re=new ArrayList<Integer>();
+		int n=T.length(), m=P.length();
+		int q=13;//直接取素数13
+		int d=10, h=1;//d直接去10
+		int p=0, t=0;
+		
+		for(int i=0; i<m-1; i++){//根据P的长度求出h，即具有m数位的文本窗口的高位数位上的数字“1”的值
+			h=(h*d)%q;
 		}
-		char[] T=toCharArray(Text);
-		char[] P=toCharArray(Pattern);
-		int[] Pi=computePrifix(Pattern);
-		List<Integer> list=new ArrayList<Integer>();
-		int q=0;
-		for(int i=1; i<=n; i++){
-			while(q>0&&P[q+1]!=T[i]){
-				q=Pi[q];
-			}
-			if(P[q+1]==T[i]){
-				q++;
-			}
-			if(q==m){
-				list.add(i-m);
-				q=Pi[q];
-			}
+		for(int i=0; i<m; i++){//预处理，初始化求出p和t0的值
+			p=(d*p+P.charAt(i)-'0')%q;
+			t=(d*t+T.charAt(i)-'0')%q;
 		}
-		if(list.isEmpty()){
-			return null;
-		}
-		return list;
-	}
-	/*
-	 * MKP算法的预处理函数
-	 * 根据匹配的字符串计算出前缀函数
-	 */
-	private static int[] computePrifix(String s){
-		int m=s.length();
-		char[] P=toCharArray(s);
-		int[] re=new int[m+1];
-		int k=0;
-		re[1]=0;
-		for(int q=2; q<=m; q++){
-			while(k>0&&P[k+1]!=P[q]){
-				k=re[k];
+		for(int i=0; i<=n-m; i++){//无论何时执行，都有根据t(i)求t(i+1)
+			if(p==t){//如果p与t(i)相等，说明取模相等，但有可能是伪命中点
+				int j;
+				for(j=0; j<m; j++){//进一步判断
+					if(P.charAt(j)!=T.charAt(i+j)){
+						break;
+					}
+				}
+				if(j==m){//如果完全一样，则加入答案中
+					re.add(i);
+				}
 			}
-			if(P[k+1]==P[q]){
-				k++;
+			if(i<(n-m)){//根据t(i)求t(i+1)
+				t=(d*(t-(T.charAt(i)-'0')*h)+T.charAt(i+m)-'0')%q;
+				if(t<0){
+					t+=q;
+				}
 			}
-			re[q]=k;
 		}
 		return re;
 	}
-	/*
-	 * 把字符串转换成数组，并且下标+1,这样程序里看起来更加直观
-	 */
-	private static char[] toCharArray(String s){
-		char[] re=new char[s.length()+1];
-		for(int i=0; i<s.length(); i++){
-			re[i+1]=s.charAt(i);
-		}
-		return re;
-	}
+	
+	
+	
+	
+	
+
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String P="abc";
-		String T="ahdsiufhasdnfabchfushfabc";
+		String P="31415";
+		String T="2353141590231431415152673931415921";
+		String p="ababaca";
+		String t="ababacabfdzgbdzrgababaca";
 		System.out.println(naiveStringMatcher(T, P));
+		System.out.println(rabinKarpMatcher(T, P));
+		System.out.println(kmpMatcher(T, P));
 	}
 
 }
