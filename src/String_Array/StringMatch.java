@@ -1,4 +1,4 @@
-package String;
+package String_Array;
 import java.util.*;
 
 /**
@@ -83,7 +83,6 @@ public class StringMatch {
 		return re;
 	}
 	
-	
 	/*
 	 * 4、KMP算法
 	 * 
@@ -110,32 +109,28 @@ public class StringMatch {
 		return Pi;
 	}
 	
-	//KMP算法 O(n)
+	//KMP算法 匹配过程 O(n)
 	public static List<Integer> kmpMatcher(String T, String P){
 		List<Integer> re=new ArrayList<Integer>();
 		int n=T.length();
 		int m=P.length();
 		int[] Pi=computePrefix(P);
-		int q=-1;
+		int k=-1;
 		for(int i=0; i<n; i++){
-			while(q>=0&&P.charAt(q+1)!=T.charAt(i)){
-				q=Pi[q]-1;
+			while(k>=0&&P.charAt(k+1)!=T.charAt(i)){
+				k=Pi[k]-1;
 			}
-			if(P.charAt(q+1)==T.charAt(i)){
-				q++;
+			if(P.charAt(k+1)==T.charAt(i)){
+				k++;
 			}
-			if(q==m-1){
+			if(k==m-1){
 				re.add(i-m+1);
-				q=Pi[q]+1;
+				k=Pi[k]+1;
 			}
 		}
 		return re;
 	}	
-	
-	
-	
-
-	
+		
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		String P="31415";
