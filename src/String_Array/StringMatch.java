@@ -90,54 +90,56 @@ public class StringMatch {
 	 * 运行时间O(n)
 	 */
 	
-	//预处理，求出Pi数组 O(m)
-	private static int[] computePrefix(String P){
+	//预处理，求出next数组 O(m)
+	private static int[] getNext(String P){
 		int m=P.length();
-		int[] Pi=new int[m];
+		int[] next=new int[m+1];
+		next[0]=next[1]=0;
+		int j=0;
 		
-		Pi[0]=0;
-		int k=-1;
 		for(int i=1; i<m; i++){
-			while(k>=0&&P.charAt(k+1)!=P.charAt(i)){
-				k=Pi[k]-1;
+			while(j>0&&P.charAt(i)!=P.charAt(i)){
+				j=next[j];
 			}
-			if(P.charAt(k+1)==P.charAt(i)){
-				k++;
+			if(P.charAt(i)==P.charAt(j)){
+				j++;
 			}
-			Pi[i]=k+1;
+			next[i+1]=j;
 		}
-		return Pi;
+		return next;
 	}
+
 	
 	//KMP算法 匹配过程 O(n)
 	public static List<Integer> kmpMatcher(String T, String P){
 		List<Integer> re=new ArrayList<Integer>();
-		int n=T.length();
+		int[] next=getNext(P);
 		int m=P.length();
-		int[] Pi=computePrefix(P);
-		int k=-1;
-		for(int i=0; i<n; i++){
-			while(k>=0&&P.charAt(k+1)!=T.charAt(i)){
-				k=Pi[k]-1;
+		System.out.println(Arrays.toString(next));
+		int j=0;
+		for(int i=0; i<T.length(); i++){
+			while(j>0&&T.charAt(i)!=P.charAt(j)){
+				j=next[j];
 			}
-			if(P.charAt(k+1)==T.charAt(i)){
-				k++;
+			if(T.charAt(i)==P.charAt(j)){
+				j++;
 			}
-			if(k==m-1){
-				re.add(i-m+1);
-				k=Pi[k]+1;
+			if(j==m){
+				re.add(i-j+1);
+				j=next[j];
 			}
 		}
 		return re;
-	}	
-		
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String P="31415";
-		String T="2353141590231431415152673931415921";
-		System.out.println(naiveStringMatcher(T, P));
-		System.out.println(rabinKarpMatcher(T, P));
+		String P="ababaca";
+		String T="abagfdsgfdhfdbaca";
+		//System.out.println(naiveStringMatcher(T, P));
+		//System.out.println(rabinKarpMatcher(T, P));
 		System.out.println(kmpMatcher(T, P));
+
 	}
 
 }

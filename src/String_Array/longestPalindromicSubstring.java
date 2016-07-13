@@ -25,8 +25,7 @@ public class longestPalindromicSubstring {
 		for(int i=0; i<str.length(); i++){
 			s.append("#").append(str.charAt(i));
 		}
-		s.append("#$");
-		return s.toString();
+		return s.append("#$").toString();
     }
     
 	/*
@@ -42,10 +41,10 @@ public class longestPalindromicSubstring {
     		int j=C-(i-C);
     		int diff=R-i;
     		
-    		if(diff>=0&&diff>P[j]){
+    		if(diff>=0&&P[j]<diff){
     			P[i]=P[j];
     		}else{
-    			P[i]=diff>=0? diff:0;
+    			P[i]=Math.max(diff, 0);
     			while(T.charAt(i+P[i]+1)==T.charAt(i-P[i]-1)){
     				P[i]++;
     			}
