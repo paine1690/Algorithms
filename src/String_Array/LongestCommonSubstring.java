@@ -15,7 +15,7 @@ public class LongestCommonSubstring {
 		int m=s1.length();
 		int n=s2.length();
 		int[][] dp=new int[m+1][n+1];
-		int max=0, x=0, y=0;
+		int max=0, x=0;
 		
 		for(int i=1; i<=m; i++){
 			for(int j=1; j<=n; j++){
@@ -25,23 +25,16 @@ public class LongestCommonSubstring {
 				if(dp[i][j]>max){
 					max=dp[i][j];
 					x=i;
-					y=j;
 				}
 			}
 		}
 		System.out.println(max);
-		StringBuilder s=new StringBuilder();
-		while(dp[x][y]>0){
-			s.insert(0, s1.charAt(x-1));
-			x--;
-			y--;
-		}
-		return s.toString();
+		return s1.substring(x-max, x);
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String s1="abcde";
-		String s2="7431564";
+		String s1="bcd";
+		String s2="abcdef";
 		System.out.println(longestCommonSubstring(s1, s2));
 	}
 

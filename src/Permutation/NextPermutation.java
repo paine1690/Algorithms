@@ -9,6 +9,7 @@ package Permutation;
 
 public class NextPermutation {
 	
+
     private static void swap(int[] nums, int i, int j){
     	int temp=nums[i];
     	nums[i]=nums[j];
@@ -44,8 +45,9 @@ public class NextPermutation {
     	swap(nums, i, k);
     	reverse(nums, i+1, nums.length-1);
     }
+    
+
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 	}
 

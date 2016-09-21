@@ -1,5 +1,7 @@
 package String_Array;
 
+import java.util.Arrays;
+
 /**
  * 最长回文子串 O(n)
  * 
@@ -52,7 +54,7 @@ public class longestPalindromicSubstring {
     			R=i+P[i];
     		}
     	}
-    	
+    	System.out.println(Arrays.toString(P));
     	int max=0;
 		C=0;
 		for(int i=1; i<len-1; i++){
@@ -65,7 +67,7 @@ public class longestPalindromicSubstring {
 		return s.substring(start, start+max);
     }
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		System.out.println(longestPalindrome("abc"));
 
 	}
 

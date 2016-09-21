@@ -1,4 +1,4 @@
-
+import java.util.Arrays;
 
 /**
  * 
@@ -95,15 +95,11 @@ public class PrimNumber {
 	 * 
 	 * 会有重复的标记
 	 */
-	public static void printPrime(int n){
+	public static boolean[] printPrime(int n){
 		boolean[] prime=new boolean[n];
-		prime[0]=false;
-		prime[1]=false;
 		prime[2]=true;
 		for(int i=3; i<n; i++){
-			if((i&1)==0){
-				prime[i]=false;
-			}else{
+			if((i&1)!=0){
 				prime[i]=true;
 			}
 		}
@@ -121,6 +117,7 @@ public class PrimNumber {
 				System.out.println(i);
 			}
 		}
+		return prime;
 	}
 	
 	/*
@@ -133,26 +130,25 @@ public class PrimNumber {
 		int half=n>>1;
 		int sqrt=(int)Math.sqrt(n);
 		boolean[] prime=new boolean[half];
-		for(int i=0; i<half; i++){
-			prime[i]=true;
-		}
+		Arrays.fill(prime, true);
 		for(int i=0; i<=sqrt; i++){
 			if(prime[i]){
-				for(int k=i+i+3, j=k*i+k+i; j<half; j+=k){
-					//k=2*i+3,即i对应的素数，起点是k的平方，即2*j=k*k,然后依次递增k
+				int k=i+i+3;		//k=2*i+3,即i对应的素数
+				for(int j=2*i*i+6*i+3; j<half; j+=k){
+					//起点是k的平方，即2*j+3=k*k,然后依次递增k
 					prime[j]=false;
 				}
 			}
 		}
-		
-		for(int i=0; i<n; i++){
-			if(prime[i]){
+		System.out.println(2);//2也是素数
+		for(int i=0; i<half; i++){
+			if(prime[i]&&2*i+3<n){
 				System.out.println(2*i+3);
 			}
 		}
 	}
 	public static void main(String[] args) {
-		printPrime(86);
+		printPrime2(86);
 
 	}
 

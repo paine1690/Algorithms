@@ -1,5 +1,7 @@
 package String_Array;
 
+import java.util.Arrays;
+
 /**
  * 最长不重复子串
  * 
@@ -11,27 +13,32 @@ package String_Array;
  */
 public class LongestSubstringWithoutrepeatingCharacters {
 
-	public int lengthOfLongestSubstring(String s) {
-		int[] pos=new int[128-32];//考虑了所有的ascii字符，一共2^7即128个,前面32是控制符，可以不用考虑
-		for(int i=0; i<pos.length; i++){
-			pos[i]=Integer.MAX_VALUE;
-		}
-		
-		int start=0;
-		int count=0;
+	public static int lengthOfLongestSubstring(String s) {
+		int[] index=new int[128];
 		int re=0;
+		for(int i=0, j=0; j<s.length(); j++){
+			i=Math.max(i, index[s.charAt(j)]);
+			re=Math.max(re, j-i+1);
+			index[s.charAt(j)]=j+1;
+		}
+		return re;
+	}
+	public static int lengthOfLongestSubstring2(String s) {
+		int[] pos=new int[128];//考虑了所有的ascii字符，一共2^7即128个
+		Arrays.fill(pos, Integer.MAX_VALUE);
+		int start=0, count=0, re=0;
 		for(int i=0; i<s.length(); i++){
-			char c=s.charAt(i);
-			int position=c-' ';//从31个开始第一个是空格，所以减去空格来计算字符在数组中的位置
-			if(i>pos[position]){//出现过
-				for(int j=start; j<pos [position]; j++){
-					pos[s.charAt(j)-' ']=Integer.MAX_VALUE;
+
+			int chari=s.charAt(i);//从31个开始第一个是空格，所以减去空格来计算字符在数组中的位置
+			if(i>=pos[chari]){
+				for(int j=start; j<pos[chari]; j++){
+					pos[s.charAt(j)]=Integer.MAX_VALUE;
 					count--;
 				}
-				start=pos[position]+1;
-				pos[position]=i;
-			}else{//没出现过
-				pos[position]=i;
+				start=pos[chari]+1;
+				pos[chari]=i;
+			}else{
+				pos[chari]=i;
 				count++;
 				re=Math.max(re, count);
 			}
@@ -39,7 +46,7 @@ public class LongestSubstringWithoutrepeatingCharacters {
 		return re;
 	}
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		System.out.println(lengthOfLongestSubstring("abcabcbb"));
 
 	}
 

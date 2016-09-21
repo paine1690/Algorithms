@@ -23,7 +23,7 @@ public class SegmentTree {
 	
 	public SegmentTree(int[] nums){
 		this.nums=nums;
-		buildTree(0, nums.length-1);
+		this.root=buildTree(0, nums.length-1);
 	}
 	
 	public void update(int pos, int val){

@@ -12,8 +12,7 @@ package String_Array;
 public class LongestCommonSubsequeuece {
 
 	public static String longestCommonSubsequeuece(String s1, String s2){
-		int m=s1.length();
-		int n=s2.length();
+		int m=s1.length(), n=s2.length();
 		int[][] dp=new int[m+1][n+1];
 		
 		for(int i=1; i<=m; i++){
@@ -43,8 +42,8 @@ public class LongestCommonSubsequeuece {
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String s1="abcfbc";
-		String s2="438484";
+		String s1="abc";
+		String s2="ahghuhbhiuhuhc";
 		System.out.println(longestCommonSubsequeuece(s1, s2));
 	}
 

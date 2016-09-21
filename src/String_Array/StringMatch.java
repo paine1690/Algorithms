@@ -98,7 +98,7 @@ public class StringMatch {
 		int j=0;
 		
 		for(int i=1; i<m; i++){
-			while(j>0&&P.charAt(i)!=P.charAt(i)){
+			while(j>0&&P.charAt(i)!=P.charAt(j)){
 				j=next[j];
 			}
 			if(P.charAt(i)==P.charAt(j)){
@@ -135,7 +135,7 @@ public class StringMatch {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		String P="ababaca";
-		String T="abagfdsgfdhfdbaca";
+		String T="ababacaababacaababacaababacaababacaababaca";
 		//System.out.println(naiveStringMatcher(T, P));
 		//System.out.println(rabinKarpMatcher(T, P));
 		System.out.println(kmpMatcher(T, P));

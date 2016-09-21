@@ -20,7 +20,7 @@ import java.util.Random;
 public class QuikSort {
 	
 	/*
-	 * 数组划分
+	 * 数组划分  算法导论书上的版本
 	 * 将nums数组从p到r进行原址重排，nums[p...q-1]<nums[q]<nums[q+1...r]
 	 * 
 	 * 过程：
@@ -28,22 +28,50 @@ public class QuikSort {
 	 * 数组中p到i部分全部小于x，i+1到j部分全部大于x
 	 * 
 	 */
-	private static int partition(int[] nums, int p, int r){
-		int x=nums[r];
-		int i=p-1;
-		int temp;
-		for(int j=p; j<r; j++){
-			if(nums[j]<=x){
+//	private static int partition1(int[] nums, int p, int r){
+//		int x=nums[r];
+//		int i=p-1;
+//		int temp;
+//		for(int j=p; j<r; j++){
+//			if(nums[j]<=x){
+//				i++;
+//				temp=nums[i];
+//				nums[i]=nums[j];
+//				nums[j]=temp;
+//			}
+//		}
+//		temp=nums[i+1];
+//		nums[i+1]=nums[r];
+//		nums[r]=temp;
+//		return i+1;
+//	}
+	
+	/*
+	 * 数组划分  网上的方法
+	 * 过程：
+	 * 选取x=nums[l]为主元
+	 * 数组中l到i部分全部小于x，i+1到j部分全部大于x
+	 * 
+	 */
+	private static int partition2(int[] nums, int l, int r){
+		int i=l, j=r;
+		int x=nums[i];
+		while(i<j){
+			while(i<j&&nums[j]>=x){
+				j--;
+			}
+			if(i<j){
+				nums[i++]=nums[j];
+			}
+			while(i<j&&nums[i]<x){
 				i++;
-				temp=nums[i];
-				nums[i]=nums[j];
-				nums[j]=temp;
+			}
+			if(i<j){
+				nums[j--]=nums[i];
 			}
 		}
-		temp=nums[i+1];
-		nums[i+1]=nums[r];
-		nums[r]=temp;
-		return i+1;
+		nums[i]=x;
+		return i;
 	}
 	
 	/*
@@ -56,10 +84,19 @@ public class QuikSort {
 	private static int randomPartition(int[] nums, int p, int r){
 		Random rand=new Random();
 		int i=rand.nextInt(r-p)+p;
+		System.out.println(i);
+		
+//		调用partition1(),nums[r]为主元
+//		int temp=nums[i];
+//		nums[i]=nums[r];
+//		nums[r]=temp;
+//		return partition1(nums, p, r);
+		
+		
 		int temp=nums[i];
-		nums[i]=nums[r];
-		nums[r]=temp;
-		return partition(nums, p, r);
+		nums[i]=nums[p];
+		nums[p]=temp;
+		return partition2(nums, p, r);
 	}
 	
 	
@@ -67,6 +104,7 @@ public class QuikSort {
 	private static void quik(int[] nums, int p, int r){
 		if(p<r){
 			int i=randomPartition(nums, p, r);
+			System.out.println(Arrays.toString(nums));
 			quik(nums, 0, i-1);
 			quik(nums, i+1, r);
 		}
@@ -78,7 +116,7 @@ public class QuikSort {
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int[] nums={2,8,7,1,3,5,6,4};
+		int[] nums={20,15,14,18,22,35,40,11};
 		quikSort(nums);
 		System.out.println(Arrays.toString(nums));
 
