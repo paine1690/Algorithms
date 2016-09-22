@@ -96,23 +96,25 @@ public class PrimNumber {
 	 * 会有重复的标记
 	 */
 	public static boolean[] printPrime(int n){
-		boolean[] prime=new boolean[n];
-		prime[2]=true;
-		for(int i=3; i<n; i++){
-			if((i&1)!=0){
-				prime[i]=true;
-			}
+		boolean[] prime=new boolean[n+1];
+		Arrays.fill(prime, true);
+		for(int i=4; i<=n; i+=2){
+			prime[i]=false;
 		}
+		prime[0]=false;
+		prime[1]=false;
+		
+		
 		int sqrt=(int)Math.sqrt(n);
 		for(int i=3; i<=sqrt; i+=2){
 			if(prime[i]){
-				for(int j=i*i; j<n; j+=i){
+				for(int j=i*i; j<=n; j+=i){
 					prime[j]=false;
 				}
 			}
 		}
 		
-		for(int i=0; i<n; i++){
+		for(int i=0; i<=n; i++){
 			if(prime[i]){
 				System.out.println(i);
 			}
@@ -148,7 +150,7 @@ public class PrimNumber {
 		}
 	}
 	public static void main(String[] args) {
-		printPrime2(86);
+		printPrime(11);
 
 	}
 
