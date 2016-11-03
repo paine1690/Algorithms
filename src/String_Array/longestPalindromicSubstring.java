@@ -1,7 +1,5 @@
 package String_Array;
 
-import java.util.Arrays;
-
 /**
  * 最长回文子串 O(n)
  * 
@@ -54,7 +52,6 @@ public class longestPalindromicSubstring {
     			R=i+P[i];
     		}
     	}
-    	System.out.println(Arrays.toString(P));
     	int max=0;
 		C=0;
 		for(int i=1; i<len-1; i++){

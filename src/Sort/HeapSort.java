@@ -27,7 +27,7 @@ public class HeapSort {
 	 * 注意数组是从0开始的，所以左孩子节点是2*i+1 
 	 */
 	private static void heapBuild(int[] nums,int len){
-		for(int i=len/2-1; i>=0; i--){//从length开始调整直至根节点
+		for(int i=len/2-1; i>=0; i--){//从length/2-1开始调整直至根节点
 			int j=i;
 			int max=j;
 			int left=2*j+1;
@@ -53,6 +53,7 @@ public class HeapSort {
 			}
 		}
 	}
+	
 	
 	public static void heapSort(int[] nums){
 		int len=nums.length;
