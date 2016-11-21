@@ -6,39 +6,45 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
 
-/**
- * 
- * 		二叉树
- * 
- * 1、二叉树遍历
- * 		先序、中序、后序、层序遍历，递归与非递归实现
- * 2、树的最大深度与最小深度
- * 3、反转二叉树 递归与非递归实现
- * 4、根据两种遍历确定二叉树（必须有中序遍历）
- * 5、判断平衡二叉树
- * 
- * @author Paine
- *
- */
+
 public class BinaryTree {
+	static class TreeNode {
+		int val;
+		TreeNode left;
+		TreeNode right;
+		TreeNode(int x) { val = x; }
+	}
 	
-	//1.1.1 先序遍历 递归实现
-    private static void preOrder(TreeNode root, List<Integer> re){
-    	if(root!=null){
-        	re.add(root.val);
-        	preOrder(root.left, re);
-        	preOrder(root.right, re);
-    	}
-    }
+	/*
+	 * 一、二叉树遍历
+	 * 
+	 * 1、先序遍历,递归与非递归
+	 * 2、中序遍历,递归与非递归
+	 * 3、后序遍历,递归与非递归
+	 * 4、层序遍历,递归与非递归
+	 */
+	
+	//1.1.1、先序遍历 递归
+	private void preorder(TreeNode root, List<Integer> re){
+		if(root!=null){
+			re.add(root.val);
+			preorder(root.left, re);
+			preorder(root.right, re);
+		}
+	}
+	
     public List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> re=new ArrayList<Integer>();
-        preOrder(root, re);
+        preorder(root, re);   
         return re;
     }
-    
-    //1.1.2 先序遍历 非递归实现 堆栈
-    public static List<Integer> preorderTraversal2(TreeNode root){
+	
+    //1.1.2、非递归
+    public List<Integer> preorderTraversal2(TreeNode root) {
     	List<Integer> re=new ArrayList<Integer>();
+    	if(root==null){
+    		return re;
+    	}
     	Stack<TreeNode> stack=new Stack<TreeNode>();
     	TreeNode node=root;
     	while(node!=null||!stack.isEmpty()){
@@ -48,28 +54,28 @@ public class BinaryTree {
     			node=node.left;
     		}
     		if(!stack.isEmpty()){
-    			node=stack.pop();
-    			node=node.right;
+    			node=stack.pop().right;
     		}
     	}
     	return re;
     }
     
-    //1.2.1 中序遍历 递归实现
-    private void inOrder(TreeNode root, List<Integer> re){
+    //1.2.1、中序遍历 递归
+    private void inorder(TreeNode root, List<Integer> re){
     	if(root!=null){
-        	inOrder(root.left, re);
-        	re.add(root.val);
-        	inOrder(root.right, re);
+    		inorder(root.left, re);
+    		re.add(root.val);
+    		inorder(root.right, re);
     	}
     }
+    
     public List<Integer> inorderTraversal(TreeNode root) {
-    	List<Integer> re=new ArrayList<Integer>();
-    	inOrder(root, re);
+        List<Integer> re=new ArrayList<Integer>();
+        inorder(root, re);
         return re;
     }
-    
-    //1.2.2 中序遍历 非递归实现 堆栈
+	
+    //1.2.2、非递归
     public List<Integer> inorderTraversal2(TreeNode root) {
     	List<Integer> re=new ArrayList<Integer>();
     	Stack<TreeNode> stack=new Stack<TreeNode>();
@@ -79,30 +85,32 @@ public class BinaryTree {
     			stack.push(node);
     			node=node.left;
     		}
+    		
     		if(!stack.isEmpty()){
     			node=stack.pop();
     			re.add(node.val);
     			node=node.right;
-    		}
-    	}
+    		}    		
+    	}    	
     	return re;
     }
     
-    //1.3.1 后序遍历 递归实现
-    private static void postOrder(TreeNode root, List<Integer> re){
+    //1.3.1、后序遍历 递归
+    private void postorder(TreeNode root, List<Integer> re){
     	if(root!=null){
-    		postOrder(root.left, re);
-    		postOrder(root.right, re);
+    		postorder(root.left, re);
+    		postorder(root.right, re);
     		re.add(root.val);
     	}
     }
+    
     public List<Integer> postorderTraversal(TreeNode root) {
         List<Integer> re=new ArrayList<Integer>();
-        postOrder(root, re);
+        postorder(root, re);        
         return re;
     }
     
-    //1.3.2 后序遍历 非递归实现 堆栈
+    //1.3.2、非递归
     public List<Integer> postorderTraversal2(TreeNode root) {
     	List<Integer> re=new ArrayList<Integer>();
     	Stack<TreeNode> stack=new Stack<TreeNode>();
@@ -111,191 +119,422 @@ public class BinaryTree {
     		while(node!=null){
     			stack.push(node);
     			node=node.left;
-    		}
+    		}    		
     		if(!stack.isEmpty()){
-    			if(stack.peek().right==null){
-    				re.add(stack.pop().val);
-    			}else{
+    			if(stack.peek().right!=null){
     				node=stack.peek().right;
     				stack.peek().right=null;
+    			}else{
+    				re.add(stack.pop().val);
     			}
     		}
     	}
     	return re;
     }
-    
-    //1.4.1 层序遍历 递归实现
-    private static void level(List<List<Integer>> re, Queue<TreeNode> p, Queue<TreeNode> q){
-    	List<Integer> level=new ArrayList<Integer>();
+
+    //1.4.1、层序遍历 递归与非递归
+    private void levelorder(Queue<TreeNode> p, Queue<TreeNode> q, List<List<Integer>> re){
+    	List<Integer> list=new ArrayList<Integer>();
     	while(!p.isEmpty()){
-    		TreeNode temp=p.poll();
-    		level.add(temp.val);
-    		if(temp.left!=null)		q.offer(temp.left);
-    		if(temp.right!=null)	q.offer(temp.right);
+    		TreeNode node=p.poll();
+    		list.add(node.val);
+    		if(node.left!=null){
+    			q.offer(node.left);
+    		}
+    		if(node.right!=null){
+    			q.offer(node.right);
+    		}
     	}
-    	re.add(level);
+    	re.add(list);
     	if(!q.isEmpty()){
-    		level(re, q, p);
+    		levelorder(q, p, re);
     	}
     }
+    
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> re=new ArrayList<List<Integer>>();
+        Queue<TreeNode> p=new LinkedList<TreeNode>();
+        Queue<TreeNode> q=new LinkedList<TreeNode>();
+        if(root!=null){
+        	p.offer(root);
+        	levelorder(p, q, re);
+        }        
+        return re;
+    }
+    
+    //1.4.2 非递归
+    public List<List<Integer>> levelOrder2(TreeNode root) {
+        List<List<Integer>> re=new ArrayList<List<Integer>>();
         if(root==null){
-    		return re;
+        	return re;
+        }
+        List<TreeNode> list=new ArrayList<TreeNode>();
+        list.add(root);
+        int cur=0, last=list.size();
+        while(cur<list.size()){
+        	List<Integer> l=new ArrayList<Integer>();
+        	for(int i=cur; i<last; i++){
+        		TreeNode node=list.get(i);
+        		l.add(node.val);
+        		if(node.left!=null){
+        			list.add(node.left);
+        		}
+        		if(node.right!=null){
+        			list.add(node.right);
+        		}	
+        	}
+        	re.add(l);
+        	cur=last;
+        	last=list.size();
+        }           
+        return re;
+    }
+    
+    /*
+     * 二、重建二叉树
+     * 
+     * 1、先序与中序遍历重建
+     * 2、后序与中序遍历重建
+     * 3、二叉树的序列化与反序列化
+     */
+    
+    //2.1、先序与中序遍历重建
+    private int find(int[] nums, int start, int end, int tar){
+    	for(int i=start; i<=end; i++){
+    		if(nums[i]==tar){
+    			return i;
+    		}
     	}
-    	Queue<TreeNode> p=new LinkedList<TreeNode>();
-    	Queue<TreeNode> q=new LinkedList<TreeNode>();
-    	p.offer(root);
-    	level(re, p, q);
-    	return re;
+    	return -1;
     }
     
-    //2.1 树的深度 最大深度
-    public static int maxDepth(TreeNode root) {
-    	if(root==null){
-			return 0;
-		}
-		return Math.max(maxDepth(root.left)+1, maxDepth(root.right)+1);
+    private TreeNode build(int[] preorder, int index, int[] inorder, int start, int end){
+    	TreeNode root=null;
+    	if(start<=end){
+    		root=new TreeNode(preorder[index]);
+    		if(start!=end){
+    			int mid=find(inorder, start, end, preorder[index]);
+        		root.left=build(preorder, index+1, inorder, start, mid-1);
+        		root.right=build(preorder, index+mid-start, inorder, mid+1, end);
+    		}    		
+    	}    	
+    	return root;
     }
     
-    //2.2 树的最小深度
-    public static int minDepth(TreeNode root) {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+    	return build(preorder, 0, inorder, 0, inorder.length-1);
+    }
+    
+    //2.2、后序与中序遍历重建
+    private TreeNode build2(int[] postorder, int index, int[] inorder, int start, int end){
+    	TreeNode root=null;
+    	if(start<=end){
+    		root=new TreeNode(postorder[index]);
+    		if(start!=end){
+    			int mid=find(inorder, start, end, postorder[index]);
+    			root.left=build2(postorder, index-end+mid-1, inorder, start, mid-1);
+    			root.right=build2(postorder, index-1, inorder, mid+1, end);
+    		}
+    	}
+    	return root;
+    }   
+    
+    public TreeNode buildTree2(int[] inorder, int[] postorder) {
+        return build2(postorder, postorder.length-1, inorder, 0, inorder.length-1);
+    }
+    
+    //2.3、二叉树的序列化与反序列化 先序遍历
+    static class Codec {
+    	private void seria(StringBuilder s, TreeNode root){
+    		if(root==null){
+    			s.append("*,");
+    			return ;
+    		}else{
+    			s.append(root.val).append(',');
+    			seria(s, root.left);
+    			seria(s, root.right);
+    		}
+    	}
+    	
+        // Encodes a tree to a single string.
+        public String serialize(TreeNode root) {
+            StringBuilder s=new StringBuilder();
+            seria(s, root);
+            return s.toString();
+        }
+        
+        private int index;
+        
+        private TreeNode deseria(String s){
+        	if(index>=s.length()){
+        		return null;
+        	}
+        	TreeNode root;
+        	if(s.charAt(index)=='*'){
+        		root=null;
+        		index+=2;
+        	}else{
+        		int end=index+1;
+        		while(end<s.length()&&s.charAt(end)!=','){
+        			end++;
+        		}
+        		root=new TreeNode(Integer.valueOf(s.substring(index, end)));
+        		index=end+1;   
+        		root.left=deseria(s);
+        		root.right=deseria(s);
+        	}
+        	return root;
+        }
+        
+        // Decodes your encoded data to tree.
+        public TreeNode deserialize(String data) {
+            index=0;
+            return deseria(data);
+        }
+    }
+    
+    /*
+     * 三、二叉树的基本操作
+     * 
+     * 1、反转二叉树 ,递归与非递归
+     * 2、二叉树最大深度与最小深度
+     * 3、判断平衡二叉树,后序遍历优化
+     * 4、判断两棵树相同
+     * 5、判断对称二叉树 递归与非递归
+     * 6、两个节点的最低公共祖先 
+     */
+    
+    //3.1.1、反转二叉树 递归
+    public TreeNode invertTree(TreeNode root) {
+        if(root!=null){
+        	TreeNode temp=invertTree(root.right);        	
+        	root.right=invertTree(root.left);
+        	root.left=temp;
+        }
+        return root;
+    }
+    
+    //3.1.2、 非递归
+    public TreeNode invertTree2(TreeNode root) {
+    	if(root!=null){
+    		Queue<TreeNode> q=new LinkedList<TreeNode>();
+    		q.offer(root);
+    		while(!q.isEmpty()){
+    			TreeNode node=q.poll();
+    			
+    			TreeNode temp=node.left;
+    			node.left=node.right;
+    			node.right=temp;
+    			
+    			if(node.left!=null){
+    				q.offer(node.left);
+    			}
+    			if(node.right!=null){
+    				q.offer(node.right);
+    			}
+    		}
+    	}
+    	return root;
+    }
+    
+    //3.2.1、二叉树最大深度
+    public int maxDepth(TreeNode root) {
+        if(root!=null){
+        	return 1+Math.max(maxDepth(root.left), maxDepth(root.right));
+        }
+        return 0;
+    }
+    
+    //3.2.2、二叉树最小深度
+    public int minDepth(TreeNode root) {
         if(root==null){
-			return 0;
-		}else if(root.left==null&&root.right==null){
+        	return 0;
+        }else if(root.left==null&&root.right==null){
         	return 1;
         }else if(root.left==null){
         	return minDepth(root.right)+1;
         }else if(root.right==null){
         	return minDepth(root.left)+1;
         }else{
-        	return Math.min(minDepth(root.left)+1, minDepth(root.right)+1);
+        	return 1+Math.min(minDepth(root.left), minDepth(root.right));
         }
     }
-    //3.1 反转二叉树 递归实现
-    public TreeNode invertTree(TreeNode root) {
-    	if(root==null){
-    		return root;
-    	}
-        TreeNode temp=invertTree(root.left);
-        root.left=invertTree(root.right);
-        root.right=temp;
-        return root;
-    }
     
-    //3.2 反转二叉树 非递归实现
-    public TreeNode invertTree2(TreeNode root){
-    	if(root==null){
-    		return root;
-    	}
-    	Queue<TreeNode> queue=new LinkedList<TreeNode>();
-    	queue.offer(root);
-    	while(!queue.isEmpty()){
-    		TreeNode node=queue.poll();
-    		TreeNode temp=node.left;
-    		node.left=node.right;
-    		node.right=temp;
-    		if(node.left!=null){
-    			queue.offer(node.left);
-    		}
-    		if(node.right!=null){
-    			queue.offer(node.right);
-    		}
-    	}
-    	return root;
-    }
-    
-    //4.1 先序和中序 确定二叉树
-    private static int getIndex(int[] nums, int start, int end, int num){
-    	for(int i=start; i<=end; i++){
-    		if(nums[i]==num){
-    			return i;
-    		}
-    	}
-    	return -1;
-    }
-    private static TreeNode build(int[] inorder, int start, int end, int pre[], int index){
-    	TreeNode root=null;
-    	if(start<=end){
-    		root=new TreeNode(pre[index]);
-    		if(start!=end){
-    			int mid=getIndex(inorder, start, end, pre[index]);
-        		root.left=build(inorder, start, mid-1, pre, index+1);
-            	root.right=build(inorder, mid+1, end, pre, index+1+mid-start);
-    		}
-    	}
-    	return root;    	
-    }
-    public TreeNode buildTree(int[] preorder, int[] inorder) {
-        return build(inorder, 0, preorder.length-1, preorder, 0); 
-    }
-    
-    //4.2 中序和后序 确定二叉树
-    private static TreeNode build2(int[] inorder, int start, int end, int[] postorder, int index){
-    	TreeNode root=null;
-    	if(start<=end){
-    		root=new TreeNode(postorder[index]);
-    		if(start!=end){
-    			int mid=getIndex(inorder, start, end, postorder[index]);
-    			root.right=build2(inorder, mid+1, end, postorder, index-1);
-    			root.left=build2(inorder, start, mid-1, postorder, index-1-end+mid);
-    		}
-    	}
-    	return root;
-    }
-    public TreeNode buildTree2(int[] inorder, int[] postorder) {
-        return build2(inorder, 0, inorder.length-1, postorder, postorder.length-1);
-    }    
-    
-    //5.1 平衡二叉树 两边递归
+    //3.3.1、判断平衡二叉树 
     public boolean isBalanced(TreeNode root) {
-        if(root==null){
-        	return true;
-        }
-        if(root.left==null&&root.right==null){
-        	return true;
-        }
+    	if(root==null||(root.left==null&&root.right==null)){
+    		return true;
+    	}
     	if(Math.abs(maxDepth(root.left)-maxDepth(root.right))>1){
     		return false;
     	}
     	return isBalanced(root.left)&&isBalanced(root.right);
     }
     
-    //5.2 平衡二叉树 先用遍历一遍将深度信息存在val上
-    private static int getDeep(TreeNode root){
+    //3.3.2、优化 后序遍历		编程之美 
+    private int deep;
+    public boolean isBalanced2(TreeNode root) {
     	if(root==null){
-    		return 0;
+    		deep=0;
+    		return true;
     	}
-    	root.val=Math.max(getDeep(root.left)+1, getDeep(root.right)+1);
-    	return root.val;
-    }
-    private static boolean dfs(TreeNode root){
-    	if(root==null){
-        	return true;
-        }
-        if(root.left==null&&root.right==null){
-        	return true;
-        }
-        int l=0, r=0;
-        if(root.left!=null){
-        	l=root.left.val;
-        }
-        if(root.right!=null){
-        	r=root.right.val;
-        }
-    	if(Math.abs(l-r)>1){
+    	int left, right;
+    	if(isBalanced2(root.left)){
+    		left=deep;
+    	}else{
     		return false;
     	}
-    	return dfs(root.left)&&dfs(root.right);
+    	if(isBalanced2(root.right)){
+    		right=deep;
+    	}else{
+    		return false;
+    	}
+    	
+    	if(Math.abs(left-right)<=1){
+    		deep=Math.max(left, right)+1;
+    		return true;
+    	}else{
+    		return false;
+    	}    	
     }
-    public boolean isBalanced2(TreeNode root) {
-       getDeep(root);
-       return dfs(root);
+    
+    //3.4、判断两棵树相同
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if(p==null&&q==null){
+        	return true;
+        }
+        if(p==null||q==null){
+        	return false;
+        }
+        
+        if(p.val!=q.val){
+        	return false;
+        }else{
+        	return isSameTree(p.left, q.left)&&isSameTree(p.right, q.right);
+        }
     }
     
+    //3.5.1、判断对称二叉树		递归
+    private boolean isSym(TreeNode l, TreeNode r){
+    	if(l==null&&r==null){
+    		return true;
+    	}
+    	if(l==null||r==null){
+    		return false;
+    	}    	
+    	if(l.val==r.val){
+    		return isSym(l.right, r.left)&&isSym(l.left, r.right);    		
+    	}
+    	return false;
+    }
     
+    public boolean isSymmetric(TreeNode root) {
+        if(root==null){
+        	return true;
+        }
+        return isSym(root.left, root.right);
+    } 
     
+    //3.5.2、非递归
+    public boolean isSymmetric2(TreeNode root) {
+    	List<TreeNode> list=new ArrayList<TreeNode>();
+    	list.add(root);
+    	int cur=0, last;
+    	while(cur<list.size()){
+    		last=list.size();
+    		int i=cur, j=last-1;
+    		while(i<j){
+    			if((list.get(i)==null&&list.get(j)==null)||
+    					(list.get(i)!=null&&list.get(j)!=null&&list.get(i).val==list.get(j).val)){
+    				i++;
+    				j--;
+    				continue;
+    			}
+    			return false;
+    		}
+    		for(i=cur; i<last; i++){
+    			if(list.get(i)!=null){
+    				TreeNode node=list.get(i);
+    				list.add(node.left);
+    				list.add(node.right);
+    			}
+    		}
+    		cur=last;
+    	}    	
+    	return true;
+    }    
     
+    //3.6.1、两个节点的最低公共祖先
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null){
+        	return null;
+        }
+        if(root==p||root==q){
+        	return root;
+        }
+        TreeNode l=lowestCommonAncestor(root.left, p, q);
+        TreeNode r=lowestCommonAncestor(root.right, p, q);
+        if(l!=null&&r!=null){
+        	return root;
+        }
+        return l==null? r: l;
+    }
+    
+    //3.6.2、两个节点的最低公共祖先		优化 剑指offer
+    private boolean getPath(List<TreeNode> list, TreeNode root, TreeNode node){
+    	if(root==null){
+    		return false;
+    	}   	
+    	list.add(root);
+    	if(root==node){
+    		return true;
+    	}
+    	
+    	if(root.left!=null){
+    		if(getPath(list, root.left, node)){
+        		return true;
+        	}else{
+        		list.remove(list.size()-1);
+        	}
+    	}
+    	if(root.right!=null){
+    		if(getPath(list, root.right, node)){
+    			return true;
+    		}else{
+    			list.remove(list.size()-1);
+    		}
+    	}
+    	return false;
+    }
+    
+    private TreeNode getNode(List<TreeNode> l1, List<TreeNode> l2){
+    	int i=0;
+    	for(i=0; i<l1.size()&&i<l2.size(); i++){
+    		if(l1.get(i)!=l2.get(i)){
+    			break;
+    		}
+    	}
+    	return l1.get(i-1); 
+    }
+    
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+    	List<TreeNode> l1=new LinkedList<TreeNode>();
+    	List<TreeNode> l2=new LinkedList<TreeNode>();
+    	getPath(l1, root, p);
+    	getPath(l2, root, q);
+    	return getNode(l1, l2);
+    }
+    
+    //3.6.3、二叉搜索树
+    public TreeNode lowestCommonAncestor3(TreeNode root, TreeNode p, TreeNode q) {
+    	if(root.val>Math.max(p.val, q.val)){
+    		return lowestCommonAncestor3(root.left, p, q);
+    	}else if(root.val<Math.min(p.val, q.val)){
+    		return lowestCommonAncestor3(root.right, p, q);
+    	}else{
+    		return root;
+    	}
+    }
 	public static void main(String[] args) {
 		
 

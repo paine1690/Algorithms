@@ -116,7 +116,7 @@ public class QuikSort {
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int[] nums={20,15,14,18,22,35,40,11};
+		int[] nums={54,21,73,84,60,18,62,59,89,89,41,55,27,65,94,61,12,76,35,48,0,60,84,9,28,55,4,67,86,33};
 		quikSort(nums);
 		System.out.println(Arrays.toString(nums));
 

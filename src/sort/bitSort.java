@@ -1,7 +1,5 @@
 package sort;
 
-import java.util.Arrays;
-
 /**
  * 		位图排序
  * 编程珠玑第一章
