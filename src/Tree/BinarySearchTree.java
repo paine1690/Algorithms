@@ -6,12 +6,15 @@ import java.util.Stack;
 
 
 
+
+
 /**
  * 		二叉搜索树
  * 1、判断二叉搜索树	中序遍历
- * 2、n个结点可以有多少二叉搜索树
- * 3、有序数组生成二叉搜索树
- * 4、二叉搜索树 迭代器 时间O(1) 空间 O(h)
+ * 2、第k小元素
+ * 3、n个结点可以有多少二叉搜索树
+ * 4、有序数组生成二叉搜索树
+ * 5、二叉搜索树 迭代器 时间O(1) 空间 O(h)
  * 
  * @author Paine
  *
@@ -44,6 +47,25 @@ public class BinarySearchTree {
     	return isValid(root);
     }
 	
+    //230. Kth Smallest Element in a BST
+    private int countNodes(TreeNode root){
+    	if(root==null){
+    		return 0;
+    	}
+    	return 1+countNodes(root.left)+countNodes(root.right);
+    }
+    
+    public int kthSmallest(TreeNode root, int k) {
+        int cnt=countNodes(root.left)+1;
+        if(cnt==k){
+        	return root.val;
+        }else if(cnt>k){
+        	return kthSmallest(root.left, k);
+        }else{
+        	return kthSmallest(root.right, k-cnt);
+        }
+    }
+    
 	//96. Unique Binary Search Trees
     public int numTrees(int n) {
     	if(n==0||n==1){
