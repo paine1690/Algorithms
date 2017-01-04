@@ -1,6 +1,9 @@
 package hello.enumDemo;
 
 public class EnumSingleton {
+	
+	private EnumSingleton(){}
+	
 	public static EnumSingleton getInstance(){
 		return Singleton.IINSTANCE.getInstance();
 	}
