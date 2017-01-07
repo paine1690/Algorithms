@@ -99,9 +99,6 @@ public class AwaitDemo {
 		}
 		
 	}
-	/*
-	 * 其余代码与上面完全
-	 */
 	
 	public static void main(String[] args) {		
         Storage storage = new Storage();  // 仓库对象  
