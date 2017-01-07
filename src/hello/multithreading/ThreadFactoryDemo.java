@@ -9,32 +9,29 @@ public class ThreadFactoryDemo implements Runnable{
 
 	static class WorkerThread extends Thread{
 		private Runnable target;
-		private AtomicInteger counter;	
 		
-		public WorkerThread(Runnable target, AtomicInteger counter){
+		public WorkerThread(Runnable target, int cnt){
+			super(String.valueOf(cnt));
 			this.target=target;
-			this.counter=counter;
 		}
 		
 		public void run(){
 			try{
 				target.run();
-			}finally{
-				int c=counter.incrementAndGet();
-				System.out.println("terminate no " + c + " Threads");
+			}finally{				
+				System.out.println(Thread.currentThread().getName()+"end");
 			}
 		}		
-	}
-	
+	}	
 	
 	public static void main(String[] args) throws InterruptedException {
 		ExecutorService executorService=Executors.newCachedThreadPool(new ThreadFactory(){
 			private AtomicInteger count=new AtomicInteger();			
 			@Override
 			public Thread newThread(Runnable r) {
-				int c=count.incrementAndGet();
-				System.out.println("create no " + c + " Threads");						
-				return new WorkerThread(r, count);
+				int cnt=count.incrementAndGet();
+				System.out.println("Thread: "+cnt+" created");						
+				return new WorkerThread(r, cnt);
 			}
 		});
 		
@@ -45,12 +42,12 @@ public class ThreadFactoryDemo implements Runnable{
 		executorService.execute(new ThreadFactoryDemo());
 		executorService.execute(new ThreadFactoryDemo());
 		executorService.execute(new ThreadFactoryDemo());
+		System.out.println("shutdown");
 		executorService.shutdown();
  
 	}
 	@Override
 	public void run() {
-		System.out.println("run");
-		
+		System.out.println("Thread: "+Thread.currentThread().getName()+" run");		
 	}
 }
