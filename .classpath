@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="C:/Program Files (x86)/eclipse/lombok.jar"/>
 	<classpathentry kind="lib" path="E:/JAVA/jar/jdom-2.0.6/jdom-2.0.6.jar"/>
 	<classpathentry kind="lib" path="E:/JAVA/jar/dom4j-1.6.1/dom4j-1.6.1/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="E:/JAVA/jar/cglib-nodep-2.1.3.jar/cglib-nodep-2.1.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
