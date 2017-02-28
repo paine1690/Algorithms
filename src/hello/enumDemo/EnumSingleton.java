@@ -5,11 +5,11 @@ public class EnumSingleton {
 	private EnumSingleton(){}
 	
 	public static EnumSingleton getInstance(){
-		return Singleton.IINSTANCE.getInstance();
+		return Singleton.INSTANCE.getInstance();
 	}
 	
 	private static enum Singleton{
-		IINSTANCE;
+		INSTANCE;
 		
 		private EnumSingleton singleton;		
 		
