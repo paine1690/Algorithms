@@ -130,13 +130,78 @@ public class NetEase {
 		System.out.print(Math.min(re1, re2));
 	}
 	
+	/*
+	 * 魔力手环
+	 */	
+	public static int[][] multi(int[][] a, int[][] b){
+		if(a.length==0||a[0].length==0||b.length==0||b[0].length==0||a[0].length!=b.length){
+			return null;
+		}
+		int m=a.length, n=b[0].length;
+		int[][] re=new int[m][n];
+		for(int i=0; i<m; i++){
+			for(int j=0; j<n; j++){
+				int sum=0;
+				for(int x=0; x<b.length; x++){
+					sum+=a[i][x]*b[x][j]%100;
+				}
+				re[i][j]=sum%100;
+			}
+		}
+		return re;
+	}
+	
+	public static void print(int[][] matrix){
+		int[] nums=matrix[0];
+        System.out.print(nums[0]);
+        for(int i=1; i<nums.length; i++){
+            System.out.print(" "+nums[i]);
+        }
+	}
+	
+	public static int[][] matrixPow(int[][] a, int n){
+		if(a.length==0||a[0].length==0||a.length!=a[0].length){
+			return null;
+		}
+		int len=a.length;
+		int[][] re=new int[len][len];
+		for(int i=0; i<len; i++){//单位阵
+			re[i][i]=1;
+		}
+		int[][] temp=a.clone();
+		
+		while(n>0){
+			if((n&1)==1){
+				re=multi(re, temp);
+			}
+			temp=multi(temp, temp);
+			n>>=1;
+		}
+		return re;
+	}
+	
+	private static void magicHoop(int[] nums, int n, int k){
+		int[][] a=new int[n][n];
+		a[0][0]=1;
+		a[0][n-1]=1;
+		for(int i=1; i<n; i++){
+			a[i][i]=1;
+			a[i][i-1]=1;
+		}
+		print(multi(new int[][]{nums}, matrixPow(a, k)));
+	}
+	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		String s=sc.nextLine();
-		
-		
+		int n=sc.nextInt();
+		int k=sc.nextInt();
+		int[] nums=new int[n];
+		for(int i=0; i<n; i++){
+			nums[i]=sc.nextInt();
+		}
+		sc.close();
+		magicHoop(nums, n, k);		
 	}
-
 }
 
 
