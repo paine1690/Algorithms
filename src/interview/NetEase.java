@@ -111,33 +111,37 @@ public class NetEase {
 		return true;
 	}
 	
+	
+	/*
+	 * 实习笔试 排队形 男生女生
+	 */
+	public static void swap(String s){
+		char[] chars=s.toCharArray();
+		int re1=0, re2=0, g=0, b=0;
+		for(int i=0; i<chars.length; i++){
+			if(chars[i]=='G'){
+				re1+=i-g;
+				g++;
+			}else{
+				re2+=i-b;
+				b++;
+			}
+		}
+		System.out.print(Math.min(re1, re2));
+	}
+	
 	public static void main(String[] args) {
-		Scanner in = new Scanner(System.in);
-        int len=in.nextInt();
-        char[] chars=new char[len];
-        Arrays.fill(chars, 'a');
-        int count=0, re=0;
-        
-        while(true){
-        	chars[count]++;
-        	System.out.println(Arrays.toString(chars));
-        	int k=count++-1;
-        	System.out.println(k);
-            while(k>=0){
-            	if(chars[k]<='b'){
-            		chars[k]++;
-            	}else{
-            		chars[k]='a';
-            		k--;
-            	}
-            	System.out.println(Arrays.toString(chars));
-            }
-            if(count>chars.length-1){
-            	break;
-            }
-            
-        }
-        
+		Scanner sc = new Scanner(System.in);
+		String s=sc.nextLine();
+		
+		
 	}
 
 }
+
+
+
+
+
+
+
