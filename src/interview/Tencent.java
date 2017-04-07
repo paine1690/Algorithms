@@ -1,6 +1,7 @@
 package interview;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Tencent {
 
@@ -58,9 +59,31 @@ public class Tencent {
 			System.out.println(Arrays.toString(nums[i]));
 		}
 	}
+	
+	private static void switchS(String s){
+		int len=s.length();
+		int[][] dp=new int[len][len];
+		
+		for(int i=0; i<len; i++){
+			dp[i][i]=1;
+			for(int j=i-1; j>=0; j--){
+				if(s.charAt(i)==s.charAt(j)){
+					dp[i][j]=dp[i-1][j+1]+2;
+				}else{
+					dp[i][j]=Math.max(dp[i-1][j], dp[i][j+1]);
+				}
+			}
+		}
+		System.out.println(len-dp[0][len-1]);
+	}
+	
 	public static void main(String[] args) {
-		shexingjuzhen(4);
-
+		Scanner sc=new Scanner(System.in);
+		while(sc.hasNext()){
+			String s=sc.nextLine();
+			switchS(s);
+		}
+		sc.close();
 	}
 
 }
