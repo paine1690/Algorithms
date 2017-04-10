@@ -110,7 +110,7 @@ public class BinaryTree {
         return re;
     }
     
-    //1.3.2、非递归
+    //1.3.2、非递归 改变二叉树结构
     public List<Integer> postorderTraversal2(TreeNode root) {
     	List<Integer> re=new ArrayList<Integer>();
     	Stack<TreeNode> stack=new Stack<TreeNode>();
@@ -126,6 +126,33 @@ public class BinaryTree {
     				stack.peek().right=null;
     			}else{
     				re.add(stack.pop().val);
+    			}
+    		}
+    	}
+    	return re;
+    }
+    
+    //1.3.3、非递归 不改变二叉树结构
+    public List<Integer> postorderTraversal3(TreeNode root) {
+    	List<Integer> re=new ArrayList<Integer>();
+    	if(root==null){
+    		return re;
+    	}
+    	Stack<TreeNode> stack=new Stack<TreeNode>();
+    	stack.push(root);
+    	TreeNode pre=null;
+    	while(!stack.isEmpty()){
+    		TreeNode peek=stack.peek();
+    		if((peek.left==null&&peek.right==null)||(pre!=null&&(pre==peek.left||pre==peek.right))){
+    			peek=stack.pop();
+    			re.add(peek.val);
+    			pre=peek;
+    		}else{
+    			if(peek.right!=null){
+    				stack.push(peek.right);
+    			}
+    			if(peek.left!=null){
+    				stack.push(peek.left);
     			}
     		}
     	}
@@ -535,8 +562,9 @@ public class BinaryTree {
     		return root;
     	}
     }
+    
+
 	public static void main(String[] args) {
-		
 
 	}
 
