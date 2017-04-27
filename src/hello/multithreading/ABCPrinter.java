@@ -28,6 +28,7 @@ public class ABCPrinter implements Runnable{
 				System.out.println((char)('A'+num));
 				cnt++;
 				lock.notifyAll();
+				System.out.println("aaaaa");
 			}
 		}
 	}
@@ -72,12 +73,12 @@ public class ABCPrinter implements Runnable{
 	}	
 
 	public static void main(String[] args) {
-//		new Thread(new ABCPrinter(0)).start();
-//		new Thread(new ABCPrinter(1)).start();
-//		new Thread(new ABCPrinter(2)).start();
+		new Thread(new ABCPrinter(0)).start();
+		new Thread(new ABCPrinter(1)).start();
+		new Thread(new ABCPrinter(2)).start();
 		//方法二
-		new Thread(new Printer(0, conditions)).start();
-		new Thread(new Printer(1, conditions)).start();
-		new Thread(new Printer(2, conditions)).start();
+//		new Thread(new Printer(0, conditions)).start();
+//		new Thread(new Printer(1, conditions)).start();
+//		new Thread(new Printer(2, conditions)).start();
 	}
 }
