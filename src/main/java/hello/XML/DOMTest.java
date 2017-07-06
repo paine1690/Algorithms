@@ -20,7 +20,7 @@ public class DOMTest {
 			//创建DocumentBuilder对象
             DocumentBuilder db = dbf.newDocumentBuilder();
             //通过DocumentBuilder对象的parser方法加载books.xml文件到当前项目下
-            Document document = db.parse("books.xml");
+            Document document = db.parse("src\\main\\java\\hello\\XML\\books.xml");
             //获取所有book节点的集合
             NodeList bookList = document.getElementsByTagName("book");
             //通过nodelist的getLength()方法可以获取bookList的长度

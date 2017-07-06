@@ -120,7 +120,7 @@ public class SAXTest {
             SAXParser parser = factory.newSAXParser();
             //创建SAXParserHandler对象
             SAXParserHandler handler = new SAXParserHandler();
-            parser.parse("books.xml", handler);
+            parser.parse("src\\main\\java\\hello\\XML\\books.xml", handler);
             System.out.println("~！~！~！共有" + handler.getBookList().size()
                     + "本书");
             for (Book book : handler.getBookList()) {
