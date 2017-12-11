@@ -66,6 +66,33 @@ public class BinarySearchTree {
         }
     }
     
+    //230. Kth Smallest Element in a BST
+    static int cnt;
+    static boolean con;
+    static int val;
+    
+    static void dfsCnt(TreeNode root, int k) {
+      if (root == null) {
+        return;
+      }
+      dfsCnt(root.left, k);
+      if (con && ++cnt == k) {
+        con = false;
+        val = root.val;
+      }
+      if (con) {
+        dfsCnt(root.right, k);
+      }      
+    }
+    
+    public static int kthSmallest2(TreeNode root, int k) {
+      cnt = 0;
+      con = true;
+      dfsCnt(root, k);      
+      return val;
+    }
+
+    
 	//96. Unique Binary Search Trees
     public int numTrees(int n) {
     	if(n==0||n==1){
@@ -193,10 +220,10 @@ public class BinarySearchTree {
         }
     }
     
+
+
     
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -1,6 +1,7 @@
 package algorithm.tree;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -466,6 +467,7 @@ public class BinaryTree {
     public boolean isSymmetric2(TreeNode root) {
     	List<TreeNode> list=new ArrayList<TreeNode>();
     	list.add(root);
+    	List<Integer> dataList = new ArrayList<Integer>(Arrays.asList(10,20,30,null));
     	int cur=0, last;
     	while(cur<list.size()){
     		last=list.size();

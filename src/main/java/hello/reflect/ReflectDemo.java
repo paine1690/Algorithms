@@ -29,12 +29,13 @@ public class ReflectDemo {
     System.out.println("method name: " + method.getName());
     Parameter [] paramaters = method.getParameters();
     for (Parameter paramater : paramaters) {
-      System.out.print("arg name: " + paramater.isNamePresent() + " " + paramater.getName());
+      System.out.print("arg name: " + paramater.getName());
       System.out.println(", arg type: " + paramater.getParameterizedType());
     }
     System.out.println("---------------------------------");    
   }
   public static void main(String[] args) {
-    getMethodInfo("hello.reflect.ClassA");    
+    getMethodInfo("hello.reflect.ClassA");  
+    
   }
 }
